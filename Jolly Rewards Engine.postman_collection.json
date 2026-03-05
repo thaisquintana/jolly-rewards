@@ -1,0 +1,134 @@
+{
+  "info": {
+    "_postman_id": "1a89a711-ef70-46ce-82f3-d8bc7ef24d77",
+    "name": "Jolly Rewards Engine",
+    "description": "Postman collection for evaluating the Jolly Rewards take-home project.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Rules - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rules",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rules"
+          ]
+        },
+        "description": "Lists all registered reward rules."
+      },
+      "response": []
+    },
+    {
+      "name": "Rules - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Correct clock-in method\",\n  \"eventType\": \"clock_in\",\n  \"active\": true,\n  \"points\": 10,\n  \"condition\": {\n    \"field\": \"metadata.correct_method\",\n    \"operator\": \"==\",\n    \"value\": true\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rules",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rules"
+          ]
+        },
+        "description": "Creates a rule to award points when a clock-in event contains metadata.correct_method=true."
+      },
+      "response": []
+    },
+    {
+      "name": "Rules - Update By Name",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Correct clock-in method\",\n  \"eventType\": \"clock_in\",\n  \"active\": true,\n  \"points\": 25,\n  \"condition\": {\n    \"field\": \"metadata.correct_method\",\n    \"operator\": \"==\",\n    \"value\": true\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rules/Correct%20clock-in%20method",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rules",
+            "Correct%20clock-in%20method"
+          ]
+        },
+        "description": "Updates an existing rule by name."
+      },
+      "response": []
+    },
+    {
+      "name": "Events - Ingest Batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"id\": \"evt-1\",\n    \"employeeId\": \"emp-1\",\n    \"type\": \"clock_in\",\n    \"timestamp\": \"2026-03-04T12:00:00.000Z\",\n    \"metadata\": {\n      \"correct_method\": true\n    }\n  }\n]"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "events"
+          ]
+        },
+        "description": "Ingests a batch of events and applies matching active rules."
+      },
+      "response": []
+    },
+    {
+      "name": "Employees - List Balances",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/employees",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "employees"
+          ]
+        },
+        "description": "Returns employees and their current point balances."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
